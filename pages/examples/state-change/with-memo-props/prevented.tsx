@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import Button from '@mui/material/Button';
-import ChildWithChildren from '@/components/ChildWithChildren';
 import Child from '@/components/Child';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -12,14 +11,15 @@ const MemoizedFooter = React.memo(Footer);
 
 const ChildMemo = React.memo(Child);
 
-const StateChangeWithMemo = () => {
+const StateChangeWithMemoPrevented = () => {
   const [currentNumber, setCurrentNumber] = useState<number>(0);
 
   const onClick = () => {
     setCurrentNumber(currentNumber + 1);
   };
 
-  const memoValue = useMemo(() => ({ name: "first" }), []);
+  const memoValue1 = useMemo(() => ({ name: "first" }), []);
+  const memoValue2 = useMemo(() => ({ name: "second" }), []);
 
   return (
     <>
@@ -28,9 +28,10 @@ const StateChangeWithMemo = () => {
         <Box sx={{ bgcolor: '#cfe8fc', minHeight: '100vh', padding: 4 }}>
           <p>Current state: {currentNumber}</p>
           <Button variant="contained" onClick={onClick}>Add more number</Button>
-          <ChildWithChildren>
-            <ChildMemo value={memoValue} />
-          </ChildWithChildren>
+          <Box sx={{ display: 'flex' }}>
+            <ChildMemo value={memoValue1} />
+            <ChildMemo value={memoValue2} />
+          </Box>
         </Box>
       </Container>
       <MemoizedFooter />
@@ -38,4 +39,4 @@ const StateChangeWithMemo = () => {
   );
 };
 
-export default StateChangeWithMemo;
+export default StateChangeWithMemoPrevented;

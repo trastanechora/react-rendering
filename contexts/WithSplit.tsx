@@ -1,24 +1,24 @@
 import React, { useState, createContext, useContext } from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, Dispatch, SetStateAction } from 'react';
 
-const DataContext = createContext({});
-const ApiContext = createContext({});
+type DataProps = number;
+
+type ApiProps = Dispatch<SetStateAction<number>>
+
+const DataContext = createContext<DataProps>(0);
+const ApiContext = createContext<ApiProps>(() => {});
 
 export const ContextProvider = ({ children }: { children: ReactNode }) => {
-  const [currentNumber, setCurrentNumber] = useState<number>(0);
-
-  const checkValue = () => {
-    console.warn('[DEBUG] currentNumber', currentNumber)
-  };
+  const [state, setState] = useState<number>(0);
 
   return (
-    <DataContext.Provider value={{ currentNumber }}>
-      <ApiContext.Provider value={{ setCurrentNumber, checkValue }}>
-        {children}
+    <DataContext.Provider value={state}>
+      <ApiContext.Provider value={setState}>
+      {children}
       </ApiContext.Provider>
     </DataContext.Provider>
   );
 };
 
-export const useFormState = () => useContext(DataContext);
-export const useFormApi = () => useContext(ApiContext);
+export const useContextData = () => useContext(DataContext);
+export const useContextApi = () => useContext(ApiContext);

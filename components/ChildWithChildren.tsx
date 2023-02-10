@@ -1,11 +1,16 @@
 import Box from '@mui/material/Box';
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 
-const ChildWithChildren = ({ children }: PropsWithChildren) => {
-  console.log("[DEBUG] Rendering child with children");
+interface Props extends PropsWithChildren {
+  custom: ReactNode
+}
+
+const ChildWithChildren = ({ children, custom }: Props) => {
+  console.log("[DEBUG] Rendering ChildWithChildren");
 
   return (
     <Box sx={{ display: 'flex' }}>
+      {custom}
       {children}
     </Box>
   );
